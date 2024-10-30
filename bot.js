@@ -3,9 +3,11 @@ const TelegramBot = require('node-telegram-bot-api');
 const Files = require('./models/file.model');
 const Users = require('./models/user.model');
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const PUBLIC_URL = process.env.PUBLIC_URL;
 const ADMIN_IDS = process.env.ADMIN_IDS.split(',').map(id => parseInt(id));
 
-const bot = new TelegramBot(TOKEN, { polling: true });
+const bot = new TelegramBot(TOKEN, { webhook: true });
+bot.setWebHook(`${PUBLIC_URL}/bot${TOKEN}`);
 
 const timetable = {
     "Monday": [
