@@ -11,7 +11,9 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
         bot.start();
     })
     .catch((error) => console.error('MongoDB connection error:', error));
-
+app.get('/',(req,res)=>{
+    res.send('Bot is running')
+})
 app.listen(process.env.PORT,()=>{
     console.log('Server is running on port', process.env.PORT)
 })
