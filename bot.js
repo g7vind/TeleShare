@@ -1,11 +1,10 @@
-
+const Config = require('./models/config.model');
 const TelegramBot = require('node-telegram-bot-api');
 const Files = require('./models/file.model');
 const Users = require('./models/user.model');
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const ADMIN_IDS = process.env.ADMIN_IDS.split(',').map(id => parseInt(id));
 
-const bot = new TelegramBot(TOKEN, { polling: true });
 
 const timetable = {
     "Monday": [
@@ -56,6 +55,15 @@ const timetable = {
 };
 
 async function startBot() {
+    const config = await Config.findOne();
+    if (config.is_bot_active){
+        console.log('Bot is already active');
+        process.exit(1);
+    }
+    const bot = new TelegramBot(TOKEN, { polling: true });
+    console.log('Bot is starting');
+    await Config.updateOne({}, { is_bot_active: true }, { upsert: true });
+
     bot.onText(/\/start/, async (msg) => {
         const { id, first_name, last_name, username } = msg.from;
 
@@ -159,6 +167,10 @@ async function startBot() {
             });
         });
     });    
+    process.on("exit", async () => {
+        await Config.updateOne({}, { is_bot_active: false });
+        console.log("Bot is stopping");
+    });
 }
 
 module.exports = {
