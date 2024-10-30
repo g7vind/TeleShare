@@ -115,9 +115,9 @@ async function startBot() {
             
             if (assignment) {
                 console.log(`File sent to username: ${message.chat.username} with name: ${message.chat.first_name} ${message.chat.last_name} filename: ${assignment.title}`);
-                return bot.sendDocument(userId, assignment.file_url);
+                bot.sendDocument(userId, assignment.file_url);
             } else {
-                return bot.sendMessage(userId, "Files not found.");
+                bot.sendMessage(userId, "Files not found.");
             }
         } catch (error) {
             console.error("Error handling callback query:", error);
