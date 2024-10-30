@@ -58,7 +58,7 @@ async function startBot() {
     const config = await Config.findOne();
     if (config.is_bot_active){
         console.log('Bot is already active');
-        process.exit(1);
+        process.exit(0);
     }
     const bot = new TelegramBot(TOKEN, { polling: true });
     console.log('Bot is starting');
