@@ -1,11 +1,8 @@
-// index.js
 require('dotenv').config();
-const Users = require('./models/user.model');
-const Files = require('./models/file.model');
 const mongoose = require('mongoose');
-
+const express = require('express');
 const bot = require('./bot');
-
+const app = express()
 const mongoURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -14,3 +11,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
         bot.start();
     })
     .catch((error) => console.error('MongoDB connection error:', error));
+
+app.listen(process.env.PORT,()=>{
+    console.log('Server is running on port', process.env.PORT)
+})
