@@ -55,14 +55,14 @@ const timetable = {
 };
 
 async function startBot() {
-    const config = await Config.findOne();
-    if (config.is_bot_active){
-        console.log('Bot is already active');
-        process.exit(0);
-    }
+    // const config = await Config.findOne();
+    // if (config.is_bot_active){
+    //     console.log('Bot is already active');
+    //     process.exit(0);
+    // }
     const bot = new TelegramBot(TOKEN, { polling: true });
     console.log('Bot is starting');
-    await Config.updateOne({}, { is_bot_active: true }, { upsert: true });
+    // await Config.updateOne({}, { is_bot_active: true }, { upsert: true });
 
     bot.onText(/\/start/, async (msg) => {
         const { id, first_name, last_name, username } = msg.from;
@@ -167,10 +167,10 @@ async function startBot() {
             });
         });
     });    
-    process.on("exit", async () => {
-        await Config.updateOne({}, { is_bot_active: false });
-        console.log("Bot is stopping");
-    });
+    // process.on("exit", async () => {
+    //     await Config.updateOne({}, { is_bot_active: false });
+    //     console.log("Bot is stopping");
+    // });
 }
 
 module.exports = {
