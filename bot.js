@@ -117,7 +117,7 @@ async function startBot() {
             
             if (assignment) {
                 ADMIN_IDS.forEach(id => {
-                    bot.sendMessage(id, `User with username: ${message.from.username} and name: ${message.from.first_name} ${message.from.last_name} downloaded the assignment: ${assignment.title}`);
+                    bot.sendMessage(id, `User with username: ${message.chat.username} and name: ${message.chat.first_name} ${message.chat.last_name} downloaded the assignment: ${assignment.title}`);
                 });
                 bot.sendDocument(userId, assignment.file_url);
             } else {
