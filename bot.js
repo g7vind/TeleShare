@@ -91,7 +91,9 @@ async function startBot() {
         if (user && user.block === 1) {
             return bot.sendMessage(msg.chat.id, "Your account is blocked. Contact admin.");
         }
-        console.log(`User ${msg.from.username} with name ${msg.from.first_name} ${msg.from.last_name} requested assignments`);
+        ADMIN_IDS.forEach(id => {
+            bot.sendMessage(id, `User with username: ${msg.from.username} and name: ${msg.from.first_name} ${msg.from.last_name} requested for assignments.`);
+        });
         const assignments = await Files.find().sort({ timestamp: -1 }) // Show the latest 5 assignments
         if (!assignments.length) {
             bot.sendMessage(msg.chat.id, "No assignments available.");
@@ -114,7 +116,9 @@ async function startBot() {
             }
             
             if (assignment) {
-                console.log(`File sent to username: ${message.chat.username} with name: ${message.chat.first_name} ${message.chat.last_name} filename: ${assignment.title}`);
+                ADMIN_IDS.forEach(id => {
+                    bot.sendMessage(id, `User with username: ${message.from.username} and name: ${message.from.first_name} ${message.from.last_name} downloaded the assignment: ${assignment.title}`);
+                });
                 bot.sendDocument(userId, assignment.file_url);
             } else {
                 bot.sendMessage(userId, "Files not found.");
